@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GetUsersApp</string>
+    <string name="get_users">Get Users</string>
+    <string name="no_users_list_found_please_try_again">No Users List Found. Please try again</string>
 </resources>
