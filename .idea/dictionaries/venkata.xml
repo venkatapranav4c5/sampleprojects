@@ -2,7 +2,9 @@
   <dictionary name="venkata">
     <words>
       <w>coroutines</w>
+      <w>flowable</w>
       <w>gson</w>
+      <w>rxjava</w>
     </words>
   </dictionary>
 </component>

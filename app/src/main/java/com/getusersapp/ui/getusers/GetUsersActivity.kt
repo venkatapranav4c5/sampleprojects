@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.getusersapp.R
+import com.getusersapp.data.models.User
 import com.getusersapp.data.network.GetUsersApi
 import com.getusersapp.data.repositories.GetUsersRepository
 import com.getusersapp.di.component.AppComponent
@@ -15,13 +16,13 @@ import com.getusersapp.di.component.DaggerAppComponent
 import com.getusersapp.di.modules.ApiModule
 import com.getusersapp.di.modules.AppModule
 import com.getusersapp.ui.userlist.UserListActivity
-import com.getusersapp.util.hide
-import com.getusersapp.util.show
+import com.getusersapp.util.*
 import javax.inject.Inject
 
 class GetUsersActivity : AppCompatActivity() {
 
-    private var btnGetUsers: Button? = null
+    private var btnGetUsersKotlinCoroutines: Button? = null
+    private var btnGetUsersRxJavaLiveData: Button? = null
     private var progressBar: ProgressBar? = null
 
     @Inject
@@ -46,23 +47,55 @@ class GetUsersActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        btnGetUsers = findViewById(R.id.btnGetUsers)
+        btnGetUsersKotlinCoroutines = findViewById(R.id.btnGetUsersKotlinCoroutines)
+        btnGetUsersRxJavaLiveData = findViewById(R.id.btnGetUsersRxJavaLiveData)
         progressBar = findViewById(R.id.progressBar)
 
-        btnGetUsers!!.setOnClickListener {
+        btnGetUsersKotlinCoroutines!!.setOnClickListener {
             progressBar?.show()
-            viewModel.getUsers()
+            btnGetUsersRxJavaLiveData!!.disable()
+            btnGetUsersKotlinCoroutines!!.enable()
+            viewModel.getUsersFromKotlinCoroutines()
+        }
+
+        btnGetUsersRxJavaLiveData!!.setOnClickListener {
+            progressBar?.show()
+            btnGetUsersKotlinCoroutines!!.disable()
+            btnGetUsersRxJavaLiveData!!.enable()
+            viewModel.getUsersFromRxJavaLiveDataStreams()
         }
     }
 
     private fun prepareViewModel() {
         viewModel = ViewModelProvider(this, factory).get(GetUsersViewModel::class.java)
-        viewModel.usersList.observe(this, Observer {
+        viewModel.usersListMutable.observe(this, Observer {
             progressBar?.hide()
-            val intent = Intent(this@GetUsersActivity, UserListActivity::class.java)
-            intent.putParcelableArrayListExtra("UserList", ArrayList(it))
-            startActivity(intent)
+            navigateToUserListScreen(it)
         })
+
+        viewModel.usersListRxJava.observe(this, Observer {
+            progressBar?.hide()
+            navigateToUserListScreen(it)
+        })
+
+        viewModel.error.observe(this, Observer {
+            progressBar?.hide()
+            showToast(it)
+            btnGetUsersKotlinCoroutines!!.enable()
+            btnGetUsersRxJavaLiveData!!.enable()
+        })
+    }
+
+    private fun navigateToUserListScreen(it: List<User>) {
+        val intent = Intent(this@GetUsersActivity, UserListActivity::class.java)
+        intent.putParcelableArrayListExtra("UserList", ArrayList(it))
+        startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        btnGetUsersKotlinCoroutines!!.enable()
+        btnGetUsersRxJavaLiveData!!.enable()
     }
 
 }

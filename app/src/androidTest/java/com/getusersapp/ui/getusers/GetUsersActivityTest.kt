@@ -22,9 +22,9 @@ class GetUsersActivityTest {
     fun test_isActivityInView() {
         onView(withId(R.id.rootLayoutGetUsers)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.btnGetUsers)).check(matches(isDisplayed()))
+        onView(withId(R.id.btnGetUsersKotlinCoroutines)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.btnGetUsers)).perform(click())
+        onView(withId(R.id.btnGetUsersKotlinCoroutines)).perform(click())
 
         onView(withId(R.id.rootLayoutUserList)).check(matches(isDisplayed()))
     }

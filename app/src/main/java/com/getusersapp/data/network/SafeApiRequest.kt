@@ -1,5 +1,8 @@
 package com.getusersapp.data.network
 
+import okhttp3.ResponseBody
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Response
 import java.io.IOException
 
@@ -10,9 +13,19 @@ abstract class SafeApiRequest {
         if (response.isSuccessful) {
             return response.body()!!
         } else {
-            throw ApiException(response.code().toString())
+            val error = response.errorBody()?.string()
+            val message = StringBuilder()
+            message.append("Error Code: ${response.code()}\n")
+            error?.let {
+                try {
+                    message.append(JSONObject(it).getString("message"))
+                } catch (e: JSONException) {
+                    message.append("Error Message: ${e.message}")
+                }
+            }
+            throw ApiException(message.toString())
         }
     }
 }
 
-class ApiException(message: String) : IOException(message)
+class ApiException(message: String?) : IOException(message)
