@@ -5,6 +5,7 @@ import com.getusersapp.data.repositories.GetUsersRepository
 import com.getusersapp.ui.getusers.GetUsersViewModelFactory
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Module
@@ -18,8 +19,18 @@ class AppModule {
 
     @Provides
     @Singleton
-    internal fun getViewModelFactory(getUsersRepository: GetUsersRepository):
+    internal fun getViewModelFactory(
+        getUsersRepository: GetUsersRepository,
+        compositeDisposable: CompositeDisposable
+    ):
             GetUsersViewModelFactory {
-        return GetUsersViewModelFactory(getUsersRepository)
+        return GetUsersViewModelFactory(getUsersRepository, compositeDisposable)
+    }
+
+    @Provides
+    @Singleton
+    internal fun getCompositeDisposable():
+            CompositeDisposable {
+        return CompositeDisposable()
     }
 }

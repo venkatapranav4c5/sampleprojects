@@ -10,7 +10,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Job
 
 class GetUsersViewModel(
-    private val repository: GetUsersRepository
+    private val repository: GetUsersRepository,
+    private val disposable: CompositeDisposable
 ) : ViewModel() {
 
     //Used By Coroutines
@@ -20,8 +21,6 @@ class GetUsersViewModel(
     private val _usersListRxJava = MutableLiveData<List<User>>()
 
     private val _error = MutableLiveData<String>()
-
-    private var disposables = CompositeDisposable()
 
     private lateinit var job: Job
 
@@ -43,7 +42,7 @@ class GetUsersViewModel(
     }
 
     fun getUsersFromRxJavaLiveDataStreams() {
-        disposables.add(
+        disposable.add(
             repository.getUsersListObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -58,6 +57,6 @@ class GetUsersViewModel(
     override fun onCleared() {
         super.onCleared()
         if (::job.isInitialized) job.cancel()
-        if (disposables.size() > 0) disposables.clear()
+        if (disposable.size() > 0) disposable.clear()
     }
 }

@@ -1,6 +1,5 @@
 package com.getusersapp.data.network
 
-import okhttp3.ResponseBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
