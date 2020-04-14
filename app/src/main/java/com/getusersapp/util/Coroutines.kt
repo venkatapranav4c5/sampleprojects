@@ -1,6 +1,5 @@
 package com.getusersapp.util
 
-import com.getusersapp.data.network.ApiException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -19,6 +18,8 @@ object Coroutines {
                 }.await()
                 callback(data)
             } catch (e: ApiException) {
+                errorCallback(e.message)
+            }catch (e: NoInternetException) {
                 errorCallback(e.message)
             }
         }

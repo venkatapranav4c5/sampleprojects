@@ -1,29 +1,26 @@
 package com.getusersapp.ui.getusers
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.getusersapp.GetUsersAppApplication
 import com.getusersapp.R
+import com.getusersapp.data.models.LearningItemClickListener
 import com.getusersapp.data.models.User
-import com.getusersapp.data.network.GetUsersApi
-import com.getusersapp.data.repositories.GetUsersRepository
-import com.getusersapp.di.component.AppComponent
-import com.getusersapp.di.component.DaggerAppComponent
-import com.getusersapp.di.modules.ApiModule
-import com.getusersapp.di.modules.AppModule
+import com.getusersapp.ui.getusers.adapter.GetLearningsListAdapter
 import com.getusersapp.ui.userlist.UserListActivity
-import com.getusersapp.util.*
+import com.getusersapp.util.DataUtils
+import com.getusersapp.util.hide
+import com.getusersapp.util.show
+import com.getusersapp.util.showToast
+import kotlinx.android.synthetic.main.activity_get_users.*
 import javax.inject.Inject
 
-class GetUsersActivity : AppCompatActivity() {
-
-    private var btnGetUsersKotlinCoroutines: Button? = null
-    private var btnGetUsersRxJavaLiveData: Button? = null
-    private var progressBar: ProgressBar? = null
+class GetUsersActivity : AppCompatActivity(), LearningItemClickListener {
 
     @Inject
     lateinit var factory: GetUsersViewModelFactory
@@ -39,30 +36,21 @@ class GetUsersActivity : AppCompatActivity() {
     }
 
     private fun injectActivity() {
-        val appComponent = DaggerAppComponent
-            .builder()
-            .appModule(AppModule())
-            .build()
-        appComponent.inject(this)
+        getApp()?.appComponent?.inject(this)
+    }
+
+    private fun getApp(): GetUsersAppApplication? {
+        return applicationContext as GetUsersAppApplication
     }
 
     private fun initViews() {
-        btnGetUsersKotlinCoroutines = findViewById(R.id.btnGetUsersKotlinCoroutines)
-        btnGetUsersRxJavaLiveData = findViewById(R.id.btnGetUsersRxJavaLiveData)
-        progressBar = findViewById(R.id.progressBar)
-
-        btnGetUsersKotlinCoroutines!!.setOnClickListener {
-            progressBar?.show()
-            btnGetUsersRxJavaLiveData!!.disable()
-            btnGetUsersKotlinCoroutines!!.enable()
-            viewModel.getUsersFromKotlinCoroutines()
-        }
-
-        btnGetUsersRxJavaLiveData!!.setOnClickListener {
-            progressBar?.show()
-            btnGetUsersKotlinCoroutines!!.disable()
-            btnGetUsersRxJavaLiveData!!.enable()
-            viewModel.getUsersFromRxJavaLiveDataStreams()
+        learningsListView.also {
+            it?.layoutManager = GridLayoutManager(this,2)
+            it?.setHasFixedSize(true)
+            it?.adapter = GetLearningsListAdapter(
+                DataUtils.fetchLearningsList(),
+                this@GetUsersActivity
+            )
         }
     }
 
@@ -73,16 +61,9 @@ class GetUsersActivity : AppCompatActivity() {
             navigateToUserListScreen(it)
         })
 
-        viewModel.usersListRxJava.observe(this, Observer {
-            progressBar?.hide()
-            navigateToUserListScreen(it)
-        })
-
         viewModel.error.observe(this, Observer {
             progressBar?.hide()
             showToast(it)
-            btnGetUsersKotlinCoroutines!!.enable()
-            btnGetUsersRxJavaLiveData!!.enable()
         })
     }
 
@@ -92,10 +73,11 @@ class GetUsersActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
-        btnGetUsersKotlinCoroutines!!.enable()
-        btnGetUsersRxJavaLiveData!!.enable()
+    override fun onItemClick(position: Int) {
+        progressBar?.show()
+        when (position) {
+            0 -> viewModel.getUsersFromKotlinCoroutines()
+            1 -> viewModel.getUsersFromRxJavaLiveDataStreams()
+        }
     }
-
 }

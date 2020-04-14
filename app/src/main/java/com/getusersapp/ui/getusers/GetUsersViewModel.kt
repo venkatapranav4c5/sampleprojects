@@ -14,11 +14,7 @@ class GetUsersViewModel(
     private val disposable: CompositeDisposable
 ) : ViewModel() {
 
-    //Used By Coroutines
     private val _usersListMutable = MutableLiveData<List<User>>()
-
-    //Used By RxJava
-    private val _usersListRxJava = MutableLiveData<List<User>>()
 
     private val _error = MutableLiveData<String>()
 
@@ -26,9 +22,6 @@ class GetUsersViewModel(
 
     val usersListMutable: LiveData<List<User>>
         get() = _usersListMutable
-
-    val usersListRxJava: LiveData<List<User>>
-        get() = _usersListRxJava
 
     val error: LiveData<String>
         get() = _error
@@ -47,7 +40,7 @@ class GetUsersViewModel(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    _usersListRxJava.value = it
+                    _usersListMutable.value = it
                 }, {
                     _error.value = it.message
                 })

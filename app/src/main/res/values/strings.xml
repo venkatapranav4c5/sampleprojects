@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GetUsersApp</string>
+    <string name="app_name">My Learnings</string>
     <string name="get_users_kotlin">Get Users from Kotlin Coroutines</string>
     <string name="get_users_rxjava">Get Users from RxJava</string>
     <string name="no_users_list_found_please_try_again">No Users List Found. Please try again</string>
