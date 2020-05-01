@@ -30,7 +30,27 @@ android {
     dataBinding {
         enabled = true
     }
+
+    flavorDimensions "default"
+    productFlavors{
+
+        users{
+            applicationId "com.getusersapp.users"
+        }
+        news{
+            applicationId "com.getusersapp.news"
+        }
+    }
 }
+sourceSets {
+    news {
+        java.srcDirs = ['src/news/java', 'src/news/java/']
+    }
+    users {
+        java.srcDirs = ['src/users/java', 'src/users/java/']
+    }
+}
+
 
 dependencies {
     //Libs Dependency
@@ -59,7 +79,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 
     //New Material Design Dependency
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.google.android.material:material:1.2.0-alpha06'
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:4.10.0") {
+        exclude group: "com.android.support"
+    }
+    kapt 'com.github.bumptech.glide:compiler:4.10.0'
 
     //Dagger Dependencies
     def dagger_version = "2.20"

@@ -12,9 +12,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.userlist.UserListActivity"/>
-        <activity android:name=".ui.getusers.GetUsersActivity">
+        <activity android:name=".ui.albumslist.AlbumsListActivity"/>
+        <activity android:name=".ui.getuserswithalbums.UsersWithAlbumsActivity" />
+        <activity android:name=".ui.userlist.UserListActivity" />
+        <activity android:name=".ui.news.NewsActivity"/>
+        <activity android:name=".ui.learningslist.LearningsListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

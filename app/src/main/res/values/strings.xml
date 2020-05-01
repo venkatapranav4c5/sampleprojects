@@ -3,4 +3,6 @@
     <string name="get_users_kotlin">Get Users from Kotlin Coroutines</string>
     <string name="get_users_rxjava">Get Users from RxJava</string>
     <string name="no_users_list_found_please_try_again">No Users List Found. Please try again</string>
+    <string name="no_albums_list_found_please_try_again">No Albums List Found. Please try again</string>
+    <string name="photo">album_photo</string>
 </resources>

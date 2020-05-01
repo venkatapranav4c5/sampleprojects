@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:singleLine="true"
+                android:textColor="@android:color/black"
                 android:text="@{user.name}"
                 tools:text="Leanne Graham" />
 
@@ -39,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:singleLine="true"
+                android:textColor="@android:color/black"
                 android:text="@{user.email}"
                 tools:text="Sincere@april.biz" />
 
@@ -48,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:singleLine="true"
+                android:textColor="@android:color/black"
                 android:text="@{user.phone}"
                 tools:text="1-770-736-8031 x56442" />
 

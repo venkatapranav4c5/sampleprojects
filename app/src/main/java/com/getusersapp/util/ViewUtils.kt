@@ -44,6 +44,12 @@ fun Button.disable() {
     alpha = 0.50f
 }
 
+fun <T : Any?> List<T>.getMiddleElement(): T? {
+    if (size <= 0) return null
+    val middleElementIndex = size/2
+    return get(middleElementIndex)
+}
+
 fun Context.showToast(message: String?) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }

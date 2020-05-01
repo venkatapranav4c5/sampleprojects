@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.getusersapp.*
 import com.getusersapp.data.models.User
+import com.getusersapp.ui.userlist.adapter.UserListAdapter
 import com.getusersapp.util.hide
 import com.getusersapp.util.hideList
 import com.getusersapp.util.show
@@ -37,7 +38,8 @@ class UserListActivity : AppCompatActivity() {
         userListView.also {
             it?.layoutManager = LinearLayoutManager(this)
             it?.setHasFixedSize(true)
-            it?.adapter = UserListAdapter(userList)
+            it?.adapter =
+                UserListAdapter(userList)
         }
     }
 }

@@ -11,7 +11,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
@@ -26,7 +26,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_weight="0.6"
                 android:scaleX="0.90"
                 android:scaleY="0.90"
@@ -35,12 +35,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1.4"
                 android:gravity="center"
                 android:text="@{learning.title}"
                 android:textColor="@android:color/black"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:paddingBottom="5dp"
                 android:textStyle="bold"
                 tools:text="@string/get_users_rxjava" />

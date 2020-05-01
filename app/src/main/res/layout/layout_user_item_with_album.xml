@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="user"
+            type="com.getusersapp.data.models.User" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:singleLine="true"
+                    android:text="@{user.name}"
+                    android:textColor="@android:color/black"
+                    tools:text="Leanne Graham" />
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:singleLine="true"
+                    android:text="@{user.email}"
+                    android:textColor="@android:color/black"
+                    tools:text="Sincere@april.biz" />
+
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:singleLine="true"
+                    android:text="@{user.phone}"
+                    android:textColor="@android:color/black"
+                    tools:text="1-770-736-8031 x56442" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/albums"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:singleLine="true"
+                    android:text="@{`Albums Count: `+user.albums.size()}"
+                    android:textColor="@android:color/black"
+                    android:visibility="@{user.albums.size() > 0 ? View.VISIBLE : View.GONE}"
+                    tools:text="Albums Count: 10" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:visibility="@{user.albums.size() > 0 ? View.GONE : View.VISIBLE}" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
